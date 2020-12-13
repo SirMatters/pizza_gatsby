@@ -37,5 +37,32 @@ export default {
         hotspot: true,
       },
     },
+    {
+      name: 'toppings',
+      title: 'Toppings',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'topping' }] }],
+      // TODO: create custom multiselect
+    },
   ],
+  preview: {
+    select: {
+      title: 'name',
+      media: 'image',
+      topping0: 'toppings.0.name',
+      topping1: 'toppings.1.name',
+      topping2: 'toppings.2.name',
+      topping3: 'toppings.3.name',
+    },
+    prepare: ({ title, media, ...toppings }) => ({
+      title,
+      media,
+      subtitle: Object.values(toppings).reduce((a, b) => {
+        if (b) {
+          a += `, ${b}`;
+        }
+        return a;
+      }),
+    }),
+  },
 };
